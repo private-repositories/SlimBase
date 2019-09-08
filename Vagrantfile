@@ -148,7 +148,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   #Update Apache config and restart
   config.vm.provision "shell", name: "configure apache", inline: <<-'SHELL'
-    # No Document root/public - uses php -S
+    # Symlink DocumentRoot o \Vagrant\Public
+    ln -s /vagrant/public /var/www/html/DocumentRoot
+
+    sed -i -e "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/html\/DocumentRoot/" /etc/apache2/sites-enabled/000-default.conf
     sed -i -e "s/AllowOverride None/AllowOverride All/" /etc/apache2/apache2.conf
 
     a2enmod rewrite
@@ -164,8 +167,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     systemctl enable postgresql
   SHELL
 
-  config.vm.provision "shell", name: "configure composer", inline: <<-SHELL
-    composer install
+  # FIXME: This isn't required as a Vagrant provision
+  # It is here for expedience
+  config.vm.provision "shell", name: "configure service", privileged: false, inline: <<-'SHELL'
+    cd /vagrant && cp .env-development .env
+    cd /vagrant && composer install
   SHELL
 
   config.vm.post_up_message = <<MESSAGE
