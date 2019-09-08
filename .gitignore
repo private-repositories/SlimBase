@@ -1,0 +1,13 @@
+.DS_Store
+.env
+.vagrant/
+certs
+composer.phar
+TODO
+node_modules
+var/cache
+!var/logs
+var/logs/*
+!var/logs/.keep
+var/tests
+vendor/
