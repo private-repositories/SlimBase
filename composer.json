@@ -13,7 +13,7 @@
   "require": {
     "php": ">=7.3",
     "auth0/auth0-php": "^5.5",
-    "illuminate/database": "5.*",
+    "illuminate/database": "6.*",
     "monolog/monolog": "^1.24",
     "ramsey/uuid": "^3.6",
     "robmorgan/phinx": "^0.10.7",
